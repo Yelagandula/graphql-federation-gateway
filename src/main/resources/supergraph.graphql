@@ -1,0 +1,32 @@
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+  @link(url: "https://specs.apollo.dev/join/v0.3", for: EXECUTION)
+{
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  user(id: ID!): User
+  product(id: ID!): Product
+  orders(userId: ID!): [Order]
+}
+
+type User @join__type(graph: USERS, key: "id") {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+type Product @join__type(graph: PRODUCTS, key: "id") {
+  id: ID!
+  name: String!
+  price: Float!
+}
+
+type Order @join__type(graph: ORDERS, key: "id") {
+  id: ID!
+  userId: ID!
+  products: [Product]
+  total: Float!
+}

@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  gateway:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+      - SUPERGRAPH_PATH=/app/supergraph.graphql
+    depends_on:
+      - jaeger
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "4317:4317"
